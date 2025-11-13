@@ -10,11 +10,3 @@
 6. `npx expo start`
 
 
-## Demo today
-- Scan uploads photo → calls `/infer` → always returns `potato` → row in `detections`.
-- Recipes tab shows potato recipes from DB.
-
-
-## Next (swap mock)
-- Update Edge Function `infer` to call Roboflow/YOLO and map to labels.
-- Add multi‑ingredient union query in Recipes.
