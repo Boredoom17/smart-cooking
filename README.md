@@ -1,0 +1,20 @@
+# Smart Cooking AI — Expo Frontend (Prod‑Ready)
+
+
+## Setup
+1. Copy `.env.example` → `.env` and fill SUPABASE URL/key.
+2. In Supabase SQL, run `supabase/schema.sql` (then optionally `seed.sql`).
+3. In Supabase → Functions, deploy `infer` (and `recommendations` later).
+4. Create Storage bucket `uploads` (public) and note its name in `.env`.
+5. `npm install`
+6. `npx expo start`
+
+
+## Demo today
+- Scan uploads photo → calls `/infer` → always returns `potato` → row in `detections`.
+- Recipes tab shows potato recipes from DB.
+
+
+## Next (swap mock)
+- Update Edge Function `infer` to call Roboflow/YOLO and map to labels.
+- Add multi‑ingredient union query in Recipes.

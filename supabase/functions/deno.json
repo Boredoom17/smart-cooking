@@ -1,0 +1,11 @@
+{
+  "lock": false,
+  "compilerOptions": {
+    "lib": ["ES2022", "DOM"],
+    "strict": true
+  },
+  "tasks": {
+    "dev:infer": "deno run -A supabase/functions/infer/index.ts",
+    "dev:recommendations": "deno run -A supabase/functions/recommendations/index.ts"
+  }
+}
