@@ -7,12 +7,23 @@ import { theme } from "@/lib/theme";
 
 const heroImage =
   "https://images.pexels.com/photos/6287527/pexels-photo-6287527.jpeg?auto=compress&cs=tinysrgb&w=800";
-const quickRecipe =
-  "https://images.pexels.com/photos/1437267/pexels-photo-1437267.jpeg?auto=compress&cs=tinysrgb&w=800";
-const saladImage =
-  "https://images.pexels.com/photos/1640770/pexels-photo-1640770.jpeg?auto=compress&cs=tinysrgb&w=800";
-const bowlImage =
-  "https://images.pexels.com/photos/1640777/pexels-photo-1640777.jpeg?auto=compress&cs=tinysrgb&w=800";
+
+const quickMeals = [
+  {
+    title: "Cozy potato bowl",
+    subtitle: "Perfect for mid-defense demo",
+    image:
+      "https://images.pexels.com/photos/1437267/pexels-photo-1437267.jpeg?auto=compress&cs=tinysrgb&w=800",
+    tag: "Uses potato",
+  },
+  {
+    title: "Fresh veggie salad",
+    subtitle: "Soon powered by multi-ingredient scan",
+    image:
+      "https://images.pexels.com/photos/1640770/pexels-photo-1640770.jpeg?auto=compress&cs=tinysrgb&w=800",
+    tag: "Coming soon",
+  },
+];
 
 export default function HomeScreen() {
   const router = useRouter();
@@ -27,34 +38,77 @@ export default function HomeScreen() {
       contentContainerStyle={{ padding: 16, paddingBottom: 40 }}
       showsVerticalScrollIndicator={false}
     >
-      {/* Hero */}
-      <Card
+      {/* Top header */}
+      <View
         style={{
           flexDirection: "row",
-          padding: 18,
           alignItems: "center",
-          gap: 14,
-          backgroundColor: "#fff",
+          justifyContent: "space-between",
+          marginBottom: 18,
         }}
       >
-        <View style={{ flex: 1, paddingRight: 4 }}>
+        <View>
           <Text
             style={{
-              fontSize: 12,
-              letterSpacing: 1,
-              textTransform: "uppercase",
-              color: theme.subtext,
-              marginBottom: 4,
+              fontSize: 22,
+              fontWeight: "800",
+              color: theme.text,
             }}
           >
             NutriSnap
           </Text>
           <Text
             style={{
-              fontSize: 22,
+              fontSize: 12,
+              color: theme.subtext,
+              marginTop: 2,
+            }}
+          >
+            Smart cooking, one scan at a time.
+          </Text>
+        </View>
+
+        <View
+          style={{
+            paddingHorizontal: 10,
+            paddingVertical: 4,
+            borderRadius: 999,
+            backgroundColor: theme.card,
+            borderWidth: 1,
+            borderColor: theme.border,
+          }}
+        >
+          <Text style={{ fontSize: 11, color: theme.subtext }}>
+            Beta • Mid-defense
+          </Text>
+        </View>
+      </View>
+
+      {/* Hero */}
+      <Card
+        style={{
+          flexDirection: "row",
+          alignItems: "center",
+          marginBottom: 18,
+        }}
+      >
+        <View style={{ flex: 1, marginRight: 12 }}>
+          <Text
+            style={{
+              fontSize: 12,
+              fontWeight: "600",
+              color: theme.primaryDark,
+              marginBottom: 4,
+            }}
+          >
+            Scan • Detect • Cook
+          </Text>
+          <Text
+            style={{
+              fontSize: 20,
               fontWeight: "800",
               color: theme.text,
-              marginBottom: 8,
+              marginBottom: 6,
             }}
           >
             What will you cook today?
@@ -62,221 +116,188 @@ export default function HomeScreen() {
           <Text
             style={{ fontSize: 13, color: theme.subtext, marginBottom: 14 }}
           >
-            Scan your ingredients and let NutriSnap build recipes around what
-            you already have.
+            For now we&apos;re demoing potatoes — after mid-defense, this will
+            support more ingredients and full recipe flow.
           </Text>
-
           <Button title="Start scanning" onPress={goToScan} />
         </View>
 
         <Image
           source={{ uri: heroImage }}
           style={{
-            width: 82,
-            height: 82,
-            borderRadius: 24,
-            resizeMode: "cover",
+            width: 110,
+            height: 110,
+            borderRadius: 18,
           }}
         />
       </Card>
 
-      {/* Today’s ideas */}
+      {/* Mini stats */}
+      <View
+        style={{
+          flexDirection: "row",
+          marginBottom: 18,
+        }}
+      >
+        <Card
+          style={{
+            flex: 1,
+            marginRight: 8,
+            paddingVertical: 14,
+          }}
+        >
+          <Text
+            style={{ fontSize: 11, color: theme.subtext, marginBottom: 4 }}
+          >
+            Demo ingredient
+          </Text>
+          <Text style={{ fontSize: 16, fontWeight: "700", color: theme.text }}>
+            Potato 🥔
+          </Text>
+        </Card>
+
+        <Card
+          style={{
+            flex: 1,
+            marginLeft: 8,
+            paddingVertical: 14,
+          }}
+        >
+          <Text
+            style={{ fontSize: 11, color: theme.subtext, marginBottom: 4 }}
+          >
+            Next step
+          </Text>
+          <Text style={{ fontSize: 16, fontWeight: "700", color: theme.text }}>
+            Multi-ingredient
+          </Text>
+        </Card>
+      </View>
+
+      {/* From your fridge (demo) */}
       <Text
         style={{
-          marginTop: 22,
-          marginBottom: 8,
           fontSize: 16,
           fontWeight: "700",
           color: theme.text,
+          marginBottom: 8,
         }}
       >
-        Quick ideas from your fridge
+        From your fridge (demo)
       </Text>
 
       <ScrollView
         horizontal
         showsHorizontalScrollIndicator={false}
-        contentContainerStyle={{ paddingVertical: 4, gap: 12 }}
+        style={{ marginBottom: 20 }}
       >
-        <Card
-          style={{
-            width: 210,
-            padding: 10,
-            overflow: "hidden",
-            backgroundColor: "#fff",
-          }}
-        >
-          <Image
-            source={{ uri: quickRecipe }}
+        {quickMeals.map((item) => (
+          <Card
+            key={item.title}
             style={{
-              width: "100%",
-              height: 110,
-              borderRadius: 16,
-              marginBottom: 8,
-            }}
-          />
-          <Text
-            style={{
-              fontSize: 14,
-              fontWeight: "700",
-              color: theme.text,
+              width: 220,
+              marginRight: 12,
+              paddingBottom: 12,
             }}
           >
-            15-min veggie stir fry
-          </Text>
-          <Text style={{ fontSize: 12, color: theme.subtext, marginTop: 2 }}>
-            Perfect when you have leftover veggies and one pan.
-          </Text>
-        </Card>
-
-        <Card
-          style={{
-            width: 210,
-            padding: 10,
-            overflow: "hidden",
-            backgroundColor: "#fff",
-          }}
-        >
-          <Image
-            source={{ uri: saladImage }}
-            style={{
-              width: "100%",
-              height: 110,
-              borderRadius: 16,
-              marginBottom: 8,
-            }}
-          />
-          <Text
-            style={{
-              fontSize: 14,
-              fontWeight: "700",
-              color: theme.text,
-            }}
-          >
-            Crunchy bowl upgrade
-          </Text>
-          <Text style={{ fontSize: 12, color: theme.subtext, marginTop: 2 }}>
-            NutriSnap can turn a simple salad into a full meal.
-          </Text>
-        </Card>
-
-        <Card
-          style={{
-            width: 210,
-            padding: 10,
-            overflow: "hidden",
-            backgroundColor: "#fff",
-          }}
-        >
-          <Image
-            source={{ uri: bowlImage }}
-            style={{
-              width: "100%",
-              height: 110,
-              borderRadius: 16,
-              marginBottom: 8,
-            }}
-          />
-          <Text
-            style={{
-              fontSize: 14,
-              fontWeight: "700",
-              color: theme.text,
-            }}
-          >
-            One-bowl comfort
-          </Text>
-          <Text style={{ fontSize: 12, color: theme.subtext, marginTop: 2 }}>
-            Scan potatoes, eggs, veggies – get cozy bowl recipes in seconds.
-          </Text>
-        </Card>
+            <Image
+              source={{ uri: item.image }}
+              style={{
+                width: "100%",
+                height: 110,
+                borderRadius: 16,
+                marginBottom: 8,
+              }}
+            />
+            <Text
+              style={{
+                fontSize: 14,
+                fontWeight: "700",
+                color: theme.text,
+                marginBottom: 4,
+              }}
+            >
+              {item.title}
+            </Text>
+            <Text
+              style={{
+                fontSize: 12,
+                color: theme.subtext,
+                marginBottom: 6,
+              }}
+            >
+              {item.subtitle}
+            </Text>
+            <Text
+              style={{
+                fontSize: 11,
+                color: theme.primaryDark,
+              }}
+            >
+              {item.tag}
+            </Text>
+          </Card>
+        ))}
       </ScrollView>
 
-      {/* How it works */}
+      {/* How NutriSnap helps */}
       <Text
         style={{
-          marginTop: 22,
-          marginBottom: 8,
           fontSize: 16,
           fontWeight: "700",
           color: theme.text,
+          marginBottom: 10,
         }}
       >
-        How NutriSnap helps you cook
+        How NutriSnap will help you
       </Text>
 
-      <Card
-        style={{
-          padding: 14,
-          backgroundColor: "#fff",
-          gap: 10,
-        }}
-      >
-        <View style={{ flexDirection: "row", gap: 10 }}>
-          <View
-            style={{
-              width: 32,
-              height: 32,
-              borderRadius: 16,
-              backgroundColor: "#FFEFD0",
-              alignItems: "center",
-              justifyContent: "center",
-            }}
-          >
-            <Text style={{ fontSize: 18 }}>📸</Text>
-          </View>
+      <Card>
+        <View
+          style={{
+            flexDirection: "row",
+            marginBottom: 10,
+          }}
+        >
+          <Text style={{ fontSize: 18, marginRight: 10 }}>📸</Text>
           <View style={{ flex: 1 }}>
             <Text style={{ fontWeight: "700", color: theme.text }}>
-              Scan ingredients
+              Scan what you have
             </Text>
             <Text style={{ fontSize: 12, color: theme.subtext }}>
-              NutriSnap detects what’s on your cutting board using your camera.
+              Point your camera at ingredients. We&apos;ll detect them (starting
+              with potatoes) and soon support more.
             </Text>
           </View>
         </View>
 
-        <View style={{ flexDirection: "row", gap: 10 }}>
-          <View
-            style={{
-              width: 32,
-              height: 32,
-              borderRadius: 16,
-              backgroundColor: "#EAF7FF",
-              alignItems: "center",
-              justifyContent: "center",
-            }}
-          >
-            <Text style={{ fontSize: 18 }}>🍲</Text>
-          </View>
+        <View
+          style={{
+            flexDirection: "row",
+            marginBottom: 10,
+          }}
+        >
+          <Text style={{ fontSize: 18, marginRight: 10 }}>🍲</Text>
           <View style={{ flex: 1 }}>
             <Text style={{ fontWeight: "700", color: theme.text }}>
-              Get smart recipes
+              Get smart recipe ideas
             </Text>
             <Text style={{ fontSize: 12, color: theme.subtext }}>
-              We match your ingredients to recipes that fit your time and mood.
+              Later versions will show full recipes you can cook from what&apos;s
+              already in your kitchen.
             </Text>
           </View>
         </View>
 
-        <View style={{ flexDirection: "row", gap: 10 }}>
-          <View
-            style={{
-              width: 32,
-              height: 32,
-              borderRadius: 16,
-              backgroundColor: "#E9F9E5",
-              alignItems: "center",
-              justifyContent: "center",
-            }}
-          >
-            <Text style={{ fontSize: 18 }}>📊</Text>
-          </View>
+        <View style={{ flexDirection: "row" }}>
+          <Text style={{ fontSize: 18, marginRight: 10 }}>📊</Text>
           <View style={{ flex: 1 }}>
             <Text style={{ fontWeight: "700", color: theme.text }}>
               See nutrition at a glance
             </Text>
             <Text style={{ fontSize: 12, color: theme.subtext }}>
-              Later we’ll show calories and macros per serving for each dish.
+              We&apos;ll surface calories and macros per serving so you don&apos;t
+              have to open another app.
             </Text>
           </View>
         </View>

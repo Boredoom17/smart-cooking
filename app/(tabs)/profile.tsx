@@ -462,7 +462,7 @@ export default function ProfileScreen() {
                       onChangeText={setLoginPassword}
                       secureTextEntry={!showLoginPassword}
                       autoCapitalize="none"
-                      placeholder="••••••••"
+                      placeholder="Enter your password"
                       style={{ flex: 1, fontSize: 14, color: theme.text }}
                     />
                     <Pressable

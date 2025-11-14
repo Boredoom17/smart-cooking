@@ -24,7 +24,7 @@ try {
 if (req.method !== "POST") return json({ error: "Use POST" }, 405);
 const { image_url } = await req.json();
 if (!image_url || typeof image_url !== "string") return json({ error: "image_url required (string)" }, 400);
-const label = "potato"; const confidence = 0.91; // demo stub
+const label = "potato"; const confidence = 0.91; 
 return json({ image_url, label, confidence }, 200);
 } catch (e) { return json({ error: String(e) }, 400); }
 });

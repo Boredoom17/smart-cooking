@@ -1,6 +1,5 @@
 // app/(tabs)/_layout.tsx
 import { Tabs } from "expo-router";
-import { View } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { theme } from "@/lib/theme";
 
@@ -40,29 +39,8 @@ export default function TabsLayout() {
         name="scan"
         options={{
           title: "Scan",
-          tabBarLabel: "",
-          tabBarIcon: ({ focused }) => (
-            <View
-              style={{
-                width: 64,
-                height: 64,
-                borderRadius: 32,
-                backgroundColor: theme.primary,
-                justifyContent: "center",
-                alignItems: "center",
-                marginTop: -18,
-                shadowColor: theme.primary,
-                shadowOpacity: 0.4,
-                shadowRadius: 10,
-                shadowOffset: { width: 0, height: 4 },
-              }}
-            >
-              <Ionicons
-                name={focused ? "scan" : "scan-outline"}
-                size={28}
-                color="#fff"
-              />
-            </View>
+          tabBarIcon: ({ color }) => (
+            <Ionicons name="scan-outline" size={22} color={color} />
           ),
         }}
       />
