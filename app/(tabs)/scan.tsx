@@ -1,5 +1,5 @@
 // app/(tabs)/scan.tsx
-import { useRef, useState, useEffect } from "react";
+import { useRef, useState } from "react";
 import {
   View,
   Text,
@@ -17,7 +17,7 @@ import Card from "@/components/ui/Card";
 import { theme } from "@/lib/theme";
 import { uploadImageFromUri } from "@/lib/storage";
 import { inferAndInsert } from "@/services/detections";
-import { supabase } from "@/lib/supabase";
+import { useSession } from "@/hooks/useSession";
 
 type ScanResult = {
   label: string;
@@ -28,22 +28,15 @@ export default function ScanScreen() {
   const camRef = useRef<CameraView>(null);
   const [perm, requestPerm] = useCameraPermissions();
 
-  // ✅ Force back camera
+  // ✅ Always use back camera
   const [facing] = useState<"back" | "front">("back");
 
   const [uri, setUri] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
-  const [userLoggedIn, setUserLoggedIn] = useState<boolean | null>(null);
   const [lastResult, setLastResult] = useState<ScanResult | null>(null);
 
+  const { user, loading } = useSession(); // ✅ global auth state
   const router = useRouter();
-
-  // Check auth once
-  useEffect(() => {
-    supabase.auth.getUser().then(({ data }) => {
-      setUserLoggedIn(!!data.user);
-    });
-  }, []);
 
   const ensureCameraPermission = async () => {
     if (!perm || !perm.granted) {
@@ -69,27 +62,19 @@ export default function ScanScreen() {
   };
 
   const analyze = async () => {
-    if (!uri) return;
+    if (!uri || !user) return;
 
     setBusy(true);
     try {
-      // 1) Get user (optional)
-      const {
-        data: { user },
-      } = await supabase.auth.getUser();
-      const userId = user?.id ?? null;
+      const userId = user.id;
 
-      // 2) Upload image to Supabase Storage
-      const { publicUrl } = await uploadImageFromUri(
-        uri,
-        userId ?? "anon",
-        "uploads"
-      );
+      // 1) Upload image to Supabase Storage
+      const { publicUrl } = await uploadImageFromUri(uri, userId, "uploads");
 
-      // 3) Call Supabase Edge Function "infer" and insert into detections table
+      // 2) Call Edge Function "infer" (currently returns potato) & insert detection
       const row = await inferAndInsert(publicUrl, userId);
 
-      // 4) Store result in state for UI
+      // 3) Store result for UI
       setLastResult({ label: row.label, confidence: row.confidence });
     } catch (e: any) {
       Alert.alert("Analysis failed", e?.message ?? String(e));
@@ -98,8 +83,24 @@ export default function ScanScreen() {
     }
   };
 
-  // Not logged in → show clean card
-  if (userLoggedIn === false) {
+  // ⏳ Still checking session
+  if (loading) {
+    return (
+      <View
+        style={{
+          flex: 1,
+          backgroundColor: theme.bg,
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      >
+        <ActivityIndicator size="large" color={theme.primary} />
+      </View>
+    );
+  }
+
+  // 🔒 Not logged in → show nice login card
+  if (!user) {
     return (
       <View
         style={{
@@ -142,23 +143,7 @@ export default function ScanScreen() {
     );
   }
 
-  // Still checking auth
-  if (userLoggedIn === null) {
-    return (
-      <View
-        style={{
-          flex: 1,
-          backgroundColor: theme.bg,
-          alignItems: "center",
-          justifyContent: "center",
-        }}
-      >
-        <ActivityIndicator size="large" color={theme.primary} />
-      </View>
-    );
-  }
-
-  // Main UI
+  // ✅ Main UI (user is logged in)
   return (
     <ScrollView
       style={{ flex: 1, backgroundColor: theme.bg }}
@@ -226,7 +211,7 @@ export default function ScanScreen() {
               resizeMode="cover"
             />
           ) : perm?.granted ? (
-            // Before capture: live camera (BACK camera)
+            // Before capture: live camera (back)
             <CameraView ref={camRef} style={{ flex: 1 }} facing={facing} />
           ) : (
             // Permission fallback

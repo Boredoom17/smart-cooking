@@ -11,14 +11,14 @@ const heroImage =
 const quickMeals = [
   {
     title: "Cozy potato bowl",
-    subtitle: "Perfect for mid-defense demo",
+    subtitle: "Perfect for today’s potato demo.",
     image:
       "https://images.pexels.com/photos/1437267/pexels-photo-1437267.jpeg?auto=compress&cs=tinysrgb&w=800",
     tag: "Uses potato",
   },
   {
     title: "Fresh veggie salad",
-    subtitle: "Soon powered by multi-ingredient scan",
+    subtitle: "Soon powered by multi-ingredient scan.",
     image:
       "https://images.pexels.com/photos/1640770/pexels-photo-1640770.jpeg?auto=compress&cs=tinysrgb&w=800",
     tag: "Coming soon",
@@ -79,7 +79,7 @@ export default function HomeScreen() {
           }}
         >
           <Text style={{ fontSize: 11, color: theme.subtext }}>
-            Beta • Mid-defense
+            Beta • Potato demo
           </Text>
         </View>
       </View>
@@ -116,8 +116,8 @@ export default function HomeScreen() {
           <Text
             style={{ fontSize: 13, color: theme.subtext, marginBottom: 14 }}
           >
-            For now we&apos;re demoing potatoes — after mid-defense, this will
-            support more ingredients and full recipe flow.
+            Right now NutriSnap have only little framework done. After this demo, we’ll
+            expand to multiple ingredients and full recipe flows.
           </Text>
           <Button title="Start scanning" onPress={goToScan} />
         </View>
@@ -265,8 +265,8 @@ export default function HomeScreen() {
               Scan what you have
             </Text>
             <Text style={{ fontSize: 12, color: theme.subtext }}>
-              Point your camera at ingredients. We&apos;ll detect them (starting
-              with potatoes) and soon support more.
+              Point your camera at ingredients. For today, we&apos;re demoing
+              potato detection end–to–end.
             </Text>
           </View>
         </View>
@@ -283,8 +283,8 @@ export default function HomeScreen() {
               Get smart recipe ideas
             </Text>
             <Text style={{ fontSize: 12, color: theme.subtext }}>
-              Later versions will show full recipes you can cook from what&apos;s
-              already in your kitchen.
+              Soon you&apos;ll see full recipes based on everything NutriSnap
+              detects from your kitchen.
             </Text>
           </View>
         </View>
